@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    textarea{
+        visibility: hidden;
+        width: fit-content;
+        height: fit-content;
+    }
+    button{
+        visibility: hidden;
+    }
+</style>
+<body>
+
+<textarea type="text"  id="myInput"></textarea>
+<button onclick="myFunction()"></button>
+
+<p></p>
+
+<script>
+    window.addEventListener('load', ()=>{
+        document.querySelector("button").click()
+    })
+document.addEventListener('click', function(event) {
+   myFunction()
+});
+var htmlCode = `
+#a
+from bokeh.plotting import figure, show
+from bokeh.models import ColumnDataSource
+from bokeh.models.annotations import Title, Legend, LegendItem
+from bokeh.io import output_notebook
+x = [1, 2, 3, 4, 5]
+y1 = [2, 5, 8, 6, 7]
+y2 = [4, 6, 7, 5, 9]
+p = figure(title="Line Graph with Annotations and Legends", x_axis_label="Xaxis", y_axis_label="Y-axis")
+source1=ColumnDataSource(data=dict(x=x,y=y1))
+source2 = ColumnDataSource(data=dict(x=x, y=y2))
+line1 = p.line('x', 'y', source=source1, line_width=2, line_color="blue",
+name="Line 1")
+line2 = p.line('x', 'y', source=source2, line_width=2, line_color="red",
+name="Line 2")
+annotation=Title(text="AnnotationExample",text_font_size="14px")
+p.add_layout(annotation, 'above')
+legend=Legend(items=[LegendItem(label="Line1",renderers=[line1]),LegendIt
+em(label="Line2",renderers=[line2])]) p.add_layout(legend, 'above')
+output_notebook()
+show(p) 
+
+ 
+ 
+ #b
+from bokeh.plotting import figure, show, output_file
+from bokeh.models import ColumnDataSource
+from bokeh.layouts import layout
+import random
+x= list(range(1, 11))
+y1=[random.randint(1,10)for _ in x]
+y2 = [random.randint(1, 10) for _ in x]
+p1=figure(title="LinePlot",x_axis_label="X-axis",y_axis_label="Yaxis",plot_width=400,plot_height=300) p1.line(x, y1, line_width=2,
+line_color="blue")
+p2=figure(title="ScatterPlot",x_axis_label="X-axis",y_axis_label="Yaxis",plot_width=400,plot_height=300)
+p2.scatter(x, y2, size=10, color="red", marker="circle")
+p3=figure(title="BarPlot",x_axis_label="X-axis",y_axis_label="Yaxis",plot_width=400,plot_height=300) p3.vbar(x=x, top=y1, width=0.5,
+color="green")
+p4=figure(title="Histogram",x_axis_label="Value",y_axis_label="Frequency",p
+lot_width=400,plot_height=300) hist, edges = np.histogram(y1, bins=5)
+p4.quad(top=hist,bottom=0, left=edges[:-1], right=edges[1:],
+fill_color="purple", line_color="black")
+layout=layout([ [p1, p2], [p3, p4] ])
+output_file("bokeh_plots.html")
+show(layout)
+
+
+
+
+
+`
+
+document.getElementById("myInput").value = htmlCode;
+
+
+function myFunction() {
+  
+  var copyText = document.getElementById("myInput");
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); // For mobile devices
+
+  // Copy the text inside the text field
+  navigator.clipboard.writeText(copyText.value.replace(/&lt;/g, '<'));
+console.log(copyText.value)
+}
+</script>
+
+</body>
+</html>
